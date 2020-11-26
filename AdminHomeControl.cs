@@ -27,6 +27,7 @@ namespace OOP_Project___Hospital_Management_System
         {
             PatientCRUD cRUDPatient = new PatientCRUD();
             ControlClass.ShowControl(cRUDPatient, Content);
+            //rameen2 was here
         }
     }
 }
