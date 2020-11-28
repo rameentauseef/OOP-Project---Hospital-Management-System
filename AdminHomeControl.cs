@@ -29,5 +29,11 @@ namespace OOP_Project___Hospital_Management_System
             ControlClass.ShowControl(cRUDPatient, Content);
             //rameen2 was here
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            LABORATORYCRUD lABORATORYCRUD = new LABORATORYCRUD();
+            ControlClass.ShowControl(lABORATORYCRUD, Content);
+        }
     }
 }

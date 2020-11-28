@@ -106,5 +106,55 @@ namespace OOP_Project___Hospital_Management_System
             DatabaseOps databaseOps = new DatabaseOps();
             dataGridView1.DataSource = databaseOps.search("PATIENTS", textBoxSearchVal.Text, comboBoxSearchBy.Text);
         }
+
+        private void comboBoxPATGender_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxPATName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxPATTel_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxPATEmail_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxPATAddress_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

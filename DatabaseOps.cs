@@ -9,7 +9,7 @@
 
     internal class DatabaseOps
     {
-        internal static string connection_string = @"Data Source=DESKTOP-3O5KR6I;Initial Catalog=HMS Database;Integrated Security=True";
+        internal static string connection_string = @"Data Source=DESKTOP-S4END7U\SQLEXPRESS ;Initial Catalog=project;Integrated Security=True";
         internal SqlConnection sqlConnection;
         internal SqlDataAdapter sqlDataAdapter;
         internal SqlCommand sqlCommand;
@@ -106,6 +106,63 @@
                 MessageBox.Show(e.Message, "Error Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        public void insert(Laboratory laboratory)
+        {
+            try
+            {
+                sqlConnection.Open();
+                sqlCommand = new SqlCommand("INSERT INTO LABORATORY(NAME,GENDER,EMAIL,PHONE,ADDRESS,TESTFOR) VALUES (@NAME,@GENDER,@EMAIL,@PHONE,@ADDRESS,@TESTFOR)", sqlConnection);
+                sqlCommand.Parameters.AddWithValue("@NAME", laboratory.Name);
+                sqlCommand.Parameters.AddWithValue("@GENDER", laboratory.Gender);
+                sqlCommand.Parameters.AddWithValue("@EMAIL", laboratory.Email);
+                sqlCommand.Parameters.AddWithValue("@PHONE", laboratory.Tel);
+                sqlCommand.Parameters.AddWithValue("@ADDRESS", laboratory.Address);
+                sqlCommand.Parameters.AddWithValue("@TESTFOR", laboratory.testfor);
+                int a = sqlCommand.ExecuteNonQuery();
+                if (a > 0)
+                {
+                    MessageBox.Show("Appointment for Test Generated Successfully", "Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Data not inserted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void update(Laboratory laboratory)
+        {
+            try
+            {
+                sqlConnection.Open();
+                sqlCommand = new SqlCommand("UPDATE LABORATORY SET NAME = @NAME, GENDER = @GENDER,EMAIL=@EMAIL, ADDRESS = @ADDRESS, PHONE = @TEL,TESTFOR=@TEST WHERE ID = @ID", sqlConnection);
+                sqlCommand.Parameters.AddWithValue("@ID", laboratory.ID);
+                sqlCommand.Parameters.AddWithValue("@NAME",laboratory.Name);
+                sqlCommand.Parameters.AddWithValue("@GENDER",laboratory.Gender);
+                sqlCommand.Parameters.AddWithValue("@ADDRESS",laboratory.Address);
+                sqlCommand.Parameters.AddWithValue("@TEL", laboratory.Tel);
+                sqlCommand.Parameters.AddWithValue("@TEST",laboratory.testfor);
+                sqlCommand.Parameters.AddWithValue("@EMAIL", laboratory.Email);
+                int a = sqlCommand.ExecuteNonQuery();
+                if (a > 0)
+                {
+                    MessageBox.Show("Data Updated Successfully", "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Unable to updated Data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public void update(Doctor doctor)
         {
             try
@@ -187,6 +244,12 @@
                     sqlCommand = new SqlCommand("DELETE FROM " + tableValue + " WHERE ROOM_NO = @RID",
                     sqlConnection);
                     sqlCommand.Parameters.AddWithValue("@RID", id);
+                }
+                else if (tableValue=="LABORATORY")
+                {
+                    sqlCommand = new SqlCommand("DELETE FROM " + tableValue + " WHERE ID = @LID",
+                    sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("@LID", id);
                 }
                 sqlCommand.ExecuteNonQuery();
                 int a = sqlCommand.ExecuteNonQuery();
@@ -321,7 +384,7 @@
                     sqlDataAdapter = new SqlDataAdapter("SELECT * FROM ROOM WHERE ROOM_STATUS = 'AVAILABLE'", sqlConnection);
                 }
             }
-
+            
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -331,6 +394,24 @@
             sqlConnection.Close();
             return dataTable;
         }
+        public DataTable search(string searchvalue)
+        {
+            try
+            {
+
+                sqlDataAdapter = new SqlDataAdapter("SELECT * FROM LABORATORY WHERE ID LIKE '%" + searchvalue + "%'", sqlConnection);
+    
+            }
+            catch (Exception e){
+                MessageBox.Show(e.Message, "Error Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            DataTable dataTable = new DataTable();
+            sqlDataAdapter.Fill(dataTable);
+            sqlConnection.Close();
+            return dataTable;
+        }
+
+
 
         public DataTable search(string tableValue, string roomNo, string roomType, string floorNo)
         {
